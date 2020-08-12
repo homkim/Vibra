@@ -1,8 +1,10 @@
 package com.example.vibra;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.View;
@@ -66,4 +68,16 @@ public class MainActivity extends AppCompatActivity {
         vibrator.cancel();
     }
 
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void onExitClicked(View v){
+        Toast.makeText(this, "프로그램을 종료합니다.",Toast.LENGTH_LONG).show();
+
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.cancel();
+
+        moveTaskToBack(true);						// 태스크를 백그라운드로 이동
+        finishAndRemoveTask();						// 액티비티 종료 + 태스크 리스트에서 지우기
+        android.os.Process.killProcess(android.os.Process.myPid());	// 앱 프로세스 종료
+    }
 }
